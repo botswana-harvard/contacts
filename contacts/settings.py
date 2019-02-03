@@ -14,7 +14,9 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ETC_DIR = os.path.join(BASE_DIR, 'etc')
 
+APP_NAME = 'contacts'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -27,6 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 10
+REVIEWER_SITE_ID = 11
+AUTO_CREATE_KEYS = False
+
+LOGIN_REDIRECT_URL = 'home_url'
+
+INDEX_PAGE = 'contacts.bhp.org.bw:8000'
 
 # Application definition
 
@@ -37,6 +46,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_crypto_fields.apps.AppConfig',
+    'django_revision.apps.AppConfig',
+    'edc_model_admin.apps.AppConfig',
+    'edc_device.apps.AppConfig',
+    'edc_fieldsets.apps.AppConfig',
+    'edc_navbar.apps.AppConfig',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_extensions',
+    'contacts.apps.EdcBaseAppConfig',
+    'contacts.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
