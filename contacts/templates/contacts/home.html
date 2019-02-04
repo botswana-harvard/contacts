@@ -21,7 +21,48 @@
     background-color: #f9f9f9; /* White */
     color: #555555;
 }
+.form-inline {  
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
 
+
+.form-main {
+  margin-top: 15px;
+}
+
+.form-input-fields {
+ margin-bottom: 0; 
+}
+
+.section-main {
+  margin-top:40px;
+  background-color: lightgrey;
+  padding: 20px 0;
+}
+.group-icon {
+  background-color:#fff;
+  border:0; 
+}
+.input-search {
+  border:1px solid #fff;
+  box-shadow:none;  
+}
+@media (max-width: 992px) {
+    .pull-left-sm {
+        float: left !important;
+    }
+  
+}
+@media (max-width: 767px) {
+    .nofloat-xs {
+        float: none !important;
+    }
+  .btn-submit {
+    margin-top:10px;
+  }
+}
 </style>
 
 {{ block.super }}
@@ -31,10 +72,42 @@
     <p class="h4">
       <a href="" class="btn btn-default btn-lg"><i class="fa fa-user-plus fa-lg"></i> Contacts</a>
     </p> 
+    
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <form action="{% url 'search_url' %}" method="POST" class="form-main  form-inline nofloat-xs pull-right pull-left-sm">
+		  {% csrf_token %}
+          <div class="form-group form-input-fields form-group-lg has-feedback">
+
+            <label class="sr-only" for="search">Search</label>
+            <div class="input-group">
+              <input type="text" class="form-control input-search" name="search_value" id="search_value" placeholder="Search">
+              <span class="input-group-addon group-icon"> <span class="glyphicon glyphicon-user"></span>
+              </span>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-success btn-submit">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search 
+            </button>
+
+
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+    
     <div class="panel-group">
     
 	     <div class="panel panel-info">
-	      <div class="panel-heading">BHP Contacts</div>
+	      <div class="panel-heading">
+	      	</div>
+			
+	      </div>
 	      <div class="panel-body">
 	      	<table class="table table-striped">
 			    <thead>

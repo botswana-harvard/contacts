@@ -1,27 +1,48 @@
-from django.views.generic import TemplateView
+from django.db.models import Q
+from django.views.generic import TemplateView, FormView 
 
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_navbar import NavbarViewMixin
 
+from ..forms import ContactSearchForm
 from ..models import Contact
 
 
-class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
+class HomeView(
+        EdcBaseViewMixin, NavbarViewMixin, FormView, TemplateView):
 
+    form_class = ContactSearchForm
     template_name = 'contacts/home.html'
     navbar_name = 'contacts'
     navbar_selected_item = 'home'
 
-    @property
-    def contacts(self):
+
+    def form_valid(self, form):
+        if form.is_valid():
+            search_value = form.cleaned_data['search_value']
+            context = self.get_context_data(**self.kwargs)
+            context.update(contacts=self.contacts(
+                search_value=search_value))
+        return self.render_to_response(context)
+
+    def contacts(self, search_value=None):
         """Return contacts.
         """
-        return Contact.objects.all()
+        contacts = None
+        if search_value:
+            contacts = Contact.objects.filter(
+                Q(first_name__icontains=search_value) |
+                Q(last_name__icontains=search_value) |
+                Q(cell__icontains=search_value) |
+                Q(phone__icontains=search_value))
+        else:
+            contacts = Contact.objects.all()
+        return contacts
 
 
     def get_context_data(self, **kwargs):
         super().get_context_data(**kwargs)
         context = super().get_context_data(**kwargs)
         context.update({
-            'contacts': self.contacts})
+            'contacts': self.contacts()})
         return context
