@@ -4,12 +4,17 @@ from django.contrib.auth.views import LogoutView
 from django.urls.conf import path, include
 from django.views.generic.base import RedirectView
 
+from .admin_site import contact_admin
 from .views import HomeView, AdministrationView
+
+
+app_name = 'contacts'
 
 urlpatterns = [
     path('accounts/', include('edc_base.auth.urls')),
     path('admin/', include('edc_base.auth.urls')),
     path('admin/', admin.site.urls),
+    path('admin/', contact_admin.urls),
     
     path('administration/', AdministrationView.as_view(),
          name='administration_url'),

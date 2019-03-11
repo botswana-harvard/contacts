@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.deletion import PROTECT
 
 
 from django_crypto_fields.fields import EncryptedCharField
@@ -8,20 +7,15 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, TelephoneNumber
 
 
-class Contact(BaseUuidModel):
+class Contact(User, BaseUuidModel):
 
-
-    first_name = models.CharField(
-        verbose_name='First Name',
-        max_length=30)
-
-    last_name = models.CharField(
-        verbose_name='Las Name',
-        max_length=30)
+    department = models.CharField(
+        verbose_name='Department',
+        max_length=250)
 
     position = models.CharField(
         verbose_name='Position',
-        max_length=20)
+        max_length=250)
 
     cell = EncryptedCharField(
         verbose_name='Cell number',
@@ -42,18 +36,24 @@ class Contact(BaseUuidModel):
         blank=True,
         null=True)
 
+    phone_extension = EncryptedCharField(
+        verbose_name='BHP Telephone Extension',
+        validators=[TelephoneNumber, ],
+        blank=True,
+        null=True)
+
     phone_alt = EncryptedCharField(
         verbose_name='Telephone (alternate)',
         validators=[TelephoneNumber, ],
         blank=True,
         null=True)
 
-    email = models.EmailField()
-
-    owner = models.ForeignKey(User, on_delete=PROTECT)
-
     class Meta:
         verbose_name_plural = 'contacts'
+
+
+    def save(self, *args, **kwargs):
+        super(Contact, self).save(*args, **kwargs)
 
     @property
     def full_name(self):

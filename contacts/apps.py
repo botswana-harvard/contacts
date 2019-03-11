@@ -9,6 +9,7 @@ style = color_style()
 
 class AppConfig(DjangoAppConfig):
     name = 'contacts'
+    admin_site_name = 'contact_admin'
 
 
 class EdcBaseAppConfig(BaseEdcBaseAppConfig):

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
 
@@ -37,28 +38,25 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin, ModelAdminFormAutoNumberMi
         return redirect_url
 
 
+@admin.register(Contact, site=contact_admin)
 class ContactAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = ContactForm
 
     search_fields = ['first_name', 'last_name', 'cell', 'phone']
 
-    fieldsets = (
+    fieldsets = UserAdmin.fieldsets + (
         (None, {
             'fields': (
-                'owner',
-                'first_name',
-                'last_name',
+                'department',
                 'position',
                 'cell',
                 'cell_alt',
                 'phone',
-                'phone_alt',
-                'email',)},
+                'phone_extension',
+                'phone_alt',)},
          ),
         audit_fieldset_tuple
     )
     list_display = (
         'first_name', 'last_name', 'cell', 'phone')
-
-admin.site.register(Contact, ContactAdmin)
