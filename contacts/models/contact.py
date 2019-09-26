@@ -1,18 +1,26 @@
-from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 from django_crypto_fields.fields import EncryptedCharField
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber, TelephoneNumber
 
+from .department import Department
 
-class Contact(User, BaseUuidModel):
 
-    department = models.CharField(
-        verbose_name='Department',
-        max_length=250)
+class Contact(BaseUuidModel):
 
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    
+    email = models.EmailField(_('email address'), blank=True)
+    
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.SET_NULL, null=True, verbose_name='Department',)
+    
     position = models.CharField(
         verbose_name='Position',
         max_length=250)

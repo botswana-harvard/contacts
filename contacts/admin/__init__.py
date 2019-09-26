@@ -1,1 +1,1 @@
-from .contact_admin import ContactAdmin
+from .contact_admin import ContactAdmin, DepartmentAdmin

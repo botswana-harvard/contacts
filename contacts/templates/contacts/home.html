@@ -69,9 +69,11 @@
 
 <div class="container bg-3 text-center">
 
+	{% if user.is_superuser %}
     <p class="h4">
       <a href="{{new_contact.href}}" class="btn btn-default btn-lg"><i class="fa fa-user-plus fa-lg"></i> Contacts</a>
     </p> 
+    {% endif %}
     
     <div class="row">
       <div class="col-xs-12 col-md-6">
@@ -127,7 +129,13 @@
 			    <tbody>
 			    {% for contact in contacts %}
 			     <tr>
-			     	<td><a href={{contact.href}}> edit</a></td>
+			     	<td>
+			     		{% if user.is_superuser %}
+			     			<a href={{contact.href}}> edit</a>
+			     		{% else %}
+			     			No allowed to edit
+			     		{% endif %}
+			     	</td>
 	    			<td>{{contact.first_name}}</td>
 	    			<td>{{contact.last_name}}</td>
 	    			<td>{{contact.position}}</td>

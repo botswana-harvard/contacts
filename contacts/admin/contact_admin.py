@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
 
@@ -11,7 +10,7 @@ from edc_model_admin import (
 
 from ..admin_site import contact_admin
 from ..forms import ContactForm
-from ..models import Contact
+from ..models import Contact, Department
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin, ModelAdminFormAutoNumberMixin,
@@ -43,11 +42,14 @@ class ContactAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = ContactForm
 
-    search_fields = ['first_name', 'last_name', 'cell', 'phone']
+    search_fields = ['first_name', 'last_name', 'email', 'cell', 'phone']
 
-    fieldsets = UserAdmin.fieldsets + (
+    fieldsets = (
         (None, {
             'fields': (
+                'first_name',
+                'last_name',
+                'email',
                 'department',
                 'position',
                 'cell',
@@ -59,4 +61,23 @@ class ContactAdmin(ModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple
     )
     list_display = (
-        'first_name', 'last_name', 'cell', 'phone')
+        'first_name', 'last_name', 'email', 'cell', 'phone')
+
+
+
+@admin.register(Department, site=contact_admin)
+class DepartmentAdmin(ModelAdminMixin, admin.ModelAdmin):
+
+    form = ContactForm
+
+    search_fields = ['name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',)},
+         ),
+        audit_fieldset_tuple
+    )
+    list_display = (
+        'name',)
