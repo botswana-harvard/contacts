@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'edc_navbar.apps.AppConfig',
     'corsheaders',
     'rest_framework',
-    'crispy_forms',
     'rest_framework.authtoken',
     'django_extensions',
     'contacts.apps.EdcBaseAppConfig',
