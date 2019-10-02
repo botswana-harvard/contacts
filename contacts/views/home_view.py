@@ -37,16 +37,6 @@ class EdcBaseViewMixin(RevisionMixin, ContextMixin):
             'license': app_config.license,
             'project_name': app_config.project_name,
             'live_system': live_system})
-        if settings.DEBUG:
-            messages.add_message(
-                self.request, messages.ERROR,
-                ('This EDC is running in DEBUG-mode. Use for testing only. '
-                 'Do not use this system for production data collection!'))
-        elif not settings.DEBUG and not live_system:
-            messages.add_message(
-                self.request, messages.WARNING,
-                ('This EDC is for testing only. '
-                 'Do not use this system for production data collection!'))
         try:
             if settings.WARNING_MESSAGE:
                 messages.add_message(
