@@ -114,7 +114,7 @@
 	      	<table class="table table-striped">
 			    <thead>
 			      <tr>
-			      	<th>Edit</th>
+			      	{% if user.is_superuser %}<th>Edit</th>{% enndif %}
 			        <th>Firstname</th>
 			        <th>Lastname</th>
 			        <th>Position</th>
@@ -130,13 +130,11 @@
 			    <tbody>
 			    {% for contact in contacts %}
 			     <tr>
-			     	<td>
-			     		{% if user.is_superuser %}
+			     	{% if user.is_superuser %}
+			     		<td>
 			     			<a href={{contact.href}}> edit</a>
-			     		{% else %}
-			     			--
-			     		{% endif %}
 			     	</td>
+				{% endif %}
 	    			<td>{{contact.first_name}}</td>
 	    			<td>{{contact.last_name}}</td>
 	    			<td>{{contact.position}}</td>
