@@ -113,7 +113,8 @@ class HomeView(
         new_contact = self.new_contact()
         if contact_type:
             context.update(contact_type=contact_type)
-            wrapped_queryset = self.get_wrapped_queryset(self.contacts(contact_type=contact_type))
+            wrapped_queryset = self.get_wrapped_queryset_emergency_contact(
+                self.contacts(contact_type=contact_type))
             new_contact = self.new_contact(contact_type=contact_type)
         else:
             wrapped_queryset = self.get_wrapped_queryset(self.contacts())
@@ -128,4 +129,12 @@ class HomeView(
         object_list = []
         for obj in queryset:
             object_list.append(self.model_wrapper_cls(obj))
+        return object_list
+
+    def get_wrapped_queryset_emergency_contact(self, queryset):
+        """Returns a list of wrapped model instances.
+        """
+        object_list = []
+        for obj in queryset:
+            object_list.append(EmergencyContactModelWrapper(obj))
         return object_list
